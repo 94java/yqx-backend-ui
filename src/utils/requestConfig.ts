@@ -79,11 +79,29 @@ export const requestConfig: RequestConfig = {
   responseInterceptors: [
     (response) => {
       // 拦截响应数据，进行个性化处理
-      const { data:{code,message:msg} } = response as unknown as ResponseStructure;
+      const { data:{data,code,message:msg} } = response as unknown as ResponseStructure;
       console.log("响应",code)
       if (code && code !== 0) {
         message.error(msg);
         return;
+      }
+      // 统一处理图片地址（添加cdn域名前缀）
+      if (data?.avatar) {
+        data.avatar = 'http://images.jiusi.cc' + data.avatar;
+      }
+      if (data?.list instanceof Array) {
+        data.list.forEach(element => {
+          if (element?.avatar) {
+            element.avatar = 'http://images.jiusi.cc' + element.avatar;
+          }
+        });
+      }
+      if (data instanceof Array) {
+        data.forEach(element => {
+          if (element?.avatar) {
+            element.avatar = 'http://images.jiusi.cc' + element.avatar;
+          }
+        });
       }
       return response;
     },

@@ -30,7 +30,7 @@ export default (prop: any) => {
           console.log("处理垃圾图片", form.getFieldValue("avatar")),
       }}
       onFinish={async (values) => {
-        values.avatar = values.avatar[0]?.response;
+        values.avatar = values.avatar[0]?.response.data;
         values.status = values.status ? "1" : "0";
         if (values.id) {
           let resp = await update(values);
@@ -112,6 +112,7 @@ export default (prop: any) => {
           width="xs"
           name="sex"
           label="性别"
+          initialValue={1}
         />
         <ProFormSwitch
           width="xs"
@@ -120,8 +121,9 @@ export default (prop: any) => {
           checkedChildren="正常"
           unCheckedChildren="禁用"
           fieldProps={{
-            defaultChecked: true,
+            defaultValue: true,
           }}
+          initialValue={true}
         />
       </ProForm.Group>
       <ProFormTextArea

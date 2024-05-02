@@ -3,34 +3,13 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
 import { useRef, useState } from "react";
-import { changeStatus, deleteByIds, getById, page } from "@/services/user/api";
-import AddModal from "../Modal";
+import { changeStatus, deleteByIds, getById, page } from "@/services/category/api";
+import AddModal from "./Modal";
 
 const { confirm } = Modal;
 
-type UserItem = {
-  id: string;
-  username?: string;
-  nickname?: string;
-  age?: number;
-  sex?: string;
-  phone?: string;
-  email?: string;
-  avatar?: string;
-  sign?: string;
-  status?: string;
-  province?: string;
-  city?: string;
-  visitorCount?: number;
-  lastLoginTime?: Date;
-  lastLoginIp?: string;
-  createBy?: string;
-  createTime?: Date;
-  updateBy?: string;
-  updateTime?: Date;
-};
 
-const columns: ProColumns<UserItem>[] = [
+const columns: ProColumns<CATEGORY.CategoryItem>[] = [
   {
     title: "id",
     dataIndex: "id",
@@ -40,52 +19,25 @@ const columns: ProColumns<UserItem>[] = [
     key: "id",
   },
   {
-    title: "用户名",
+    title: "分类名",
     width: 120,
-    dataIndex: "username",
+    dataIndex: "name",
     ellipsis: true,
-    key: "username",
+    key: "name",
   },
   {
-    title: "头像",
-    dataIndex: "avatar",
-    width: 80,
-    key: "image",
-    valueType: "image",
-    search: false,
-  },
-  {
-    title: "昵称",
+    title: "分类类型",
     width: 120,
     ellipsis: true,
-    key: "nickname",
-    dataIndex: "nickname",
-  },
-  {
-    title: "性别",
-    width: 80,
-    dataIndex: "sex",
-    key: "sex",
+    key: "type",
+    dataIndex: "type",
     valueEnum: {
-      '': { text: "全部" },
-      "1": { text: "男" },
-      "0": { text: "女" },
+      "": { text: "全部" },
+      "0": { text: "笔记" },
+      "1": { text: "视频" },
+      "2": { text: "题库" },
+      "3": { text: "资源" },
     },
-    search: false,
-  },
-  {
-    title: "年龄",
-    width: 80,
-    dataIndex: "age",
-    search: false,
-    key: "age",
-  },
-  {
-    title: "邮箱",
-    width: 120,
-    ellipsis: true,
-    dataIndex: "email",
-    key: "email",
   },
   {
     title: "状态",
@@ -93,48 +45,16 @@ const columns: ProColumns<UserItem>[] = [
     dataIndex: "status",
     key: "status",
     valueEnum: {
-      '': { text: "全部" },
+      "": { text: "全部" },
       "1": { text: "正常" },
-      "0": { text: "禁用" },
+      "0": { text: "停用" },
     },
     render: (_, record) => (
       <Tag color={record.status === "1" ? "green" : "red"}>
-        {record.status === "1" ? "正常" : "禁用"}
+        {record.status === "1" ? "正常" : "停用"}
       </Tag>
     ),
   },
-  {
-    title: "最后登录时间",
-    width: 155,
-    key: "showLastLoginTime",
-    dataIndex: "lastLoginTime",
-    valueType: "dateTime",
-    sorter: true,
-    hideInSearch: true,
-  },
-  {
-    title: "最后登录时间",
-    width: 100,
-    dataIndex: "lastLoginTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "searchLastLoginTime",
-    search: {
-      transform: (value) => {
-        return {
-          lastLoginTime: value
-        };
-      },
-    },
-  },
-  {
-    title: "最后登录ip",
-    width: 155,
-    dataIndex: "lastLoginIp",
-    search: false,
-    key: "lastLoginIp",
-  },
-
   {
     title: "创建时间",
     width: 155,
@@ -160,6 +80,30 @@ const columns: ProColumns<UserItem>[] = [
     },
   },
   {
+    title: "修改时间",
+    width: 155,
+    key: "updateTime",
+    dataIndex: "updateTime",
+    valueType: "dateTime",
+    sorter: true,
+    hideInSearch: true,
+  },
+  {
+    title: "修改时间",
+    width: 100,
+    dataIndex: "updateTime",
+    valueType: "dateRange",
+    hideInTable: true,
+    key: "updateTime",
+    search: {
+      transform: (value) => {
+        return {
+          updateTime: value,
+        };
+      },
+    },
+  },
+  {
     title: "操作",
     valueType: "option",
     key: "option",
@@ -168,18 +112,13 @@ const columns: ProColumns<UserItem>[] = [
     render: (text, record, _, action) => [
       <AddModal
         key="edit"
-        title="编辑用户"
+        title="编辑分类"
         flush={() => {
           action?.reload();
         }}
         request={async () => {
-          let {data} = await getById({
-            id: record.id,
-          });
-          data.avatar = data.avatar
-            ? [{ thumbUrl: data.avatar }]
-            : [];
-          data.status = data.status === "0" ? false : true;
+          let {data} = await getById(record.id);
+          data.status = data.status === '0' ? false : true
           return data;
         }}
         trigger={<a>编辑</a>}
@@ -212,7 +151,7 @@ export default () => {
   const actionRef: any = useRef();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   return (
-    <ProTable<UserItem>
+    <ProTable<CATEGORY.CategoryItem>
       rowSelection={{
         selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT],
         defaultSelectedRowKeys: [],
@@ -243,11 +182,11 @@ export default () => {
         onChange: (page) => console.log(page),
       }}
       dateFormatter="string"
-      headerTitle="用户列表"
+      headerTitle="分类列表"
       toolBarRender={() => [
         <AddModal
           key="add"
-          title="添加用户"
+          title="添加分类"
           tableRef={actionRef}
           trigger={
             <Button key="button" icon={<PlusOutlined />} type="primary">
@@ -260,13 +199,13 @@ export default () => {
           menu={{
             items: [
               {
-                label: "禁用",
+                label: "停用",
                 key: "1",
                 disabled: selectedRowKeys.length === 0 ? true : false,
                 onClick: async () => {
                   confirm({
                     title: "提示",
-                    content: "确定禁用所选项吗？",
+                    content: "确定停用所选项吗？",
                     icon: <ExclamationCircleOutlined />,
                     okText: "确定",
                     okType: "danger",
@@ -277,7 +216,7 @@ export default () => {
                         status: "0",
                       });
                       if (resp.code === 0) {
-                        message.success("禁用成功");
+                        message.success("停用成功");
                         actionRef.current.reload();
                       }
                     },
