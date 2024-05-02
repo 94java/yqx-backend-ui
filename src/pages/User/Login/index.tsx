@@ -1,6 +1,5 @@
 import { Footer } from '@/components';
-import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { login } from '@/services/user/api';
 import {
   LockOutlined,
   MobileOutlined,
@@ -71,7 +70,7 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<USER.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
@@ -86,31 +85,27 @@ const Login: React.FC = () => {
       });
     }
   };
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: USER.LoginParams) => {
     try {
       // 登录
-      const msg = await login({
-        ...values,
-        type,
-      });
-      if (msg.status === 'ok') {
-        const defaultLoginSuccessMessage = '登录成功！';
-        message.success(defaultLoginSuccessMessage);
+      const resp:USER.LoginResult = await login(values as USER.LoginParams);
+      if (resp.code === 0) {
+        message.success('登录成功！');
+        // 存储用户token
+        localStorage.setItem("token", resp.data);
         await fetchUserInfo();
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
         return;
       }
-      console.log(msg);
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState(resp);
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
       console.log(error);
-      message.error(defaultLoginFailureMessage);
+      message.error('登录失败，请重试！');
     }
   };
-  const { status, type: loginType } = userLoginState;
+  const { code, message:msg } = userLoginState;
   return (
     <div className={styles.container}>
       <Helmet>
@@ -136,7 +131,7 @@ const Login: React.FC = () => {
             autoLogin: true,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as USER.LoginParams);
           }}
         >
           <Tabs
@@ -155,9 +150,10 @@ const Login: React.FC = () => {
             ]}
           />
 
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage content={'用户名或密码错误'} />
+          {code !== 0 && msg && (
+            <LoginMessage content={msg as string} />
           )}
+
           {type === 'account' && (
             <>
               <ProFormText
@@ -191,7 +187,6 @@ const Login: React.FC = () => {
             </>
           )}
 
-          {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
           {type === 'mobile' && (
             <>
               <ProFormText
