@@ -43,7 +43,7 @@ export default [
       { path: '/info', redirect: '/info/note' },
       { path: '/info/category', name: '分类管理', component: '@/pages/Category' },
       { path: '/info/note', name: '笔记管理', component: '@/pages/Note' },
-      { path: '/info/video', name: '视频管理', component: './Admin' },
+      { path: '/info/video', name: '视频管理', component: '@/pages/Video' },
       { path: '/info/resources', name: '资源管理', component: './Admin' },
     ],
   },

@@ -30,7 +30,7 @@ export default (prop: any) => {
           console.log("处理垃圾图片", form.getFieldValue("avatar")),
       }}
       onFinish={async (values) => {
-        values.avatar = values.avatar[0]?.response.data;
+        values.avatar = values.avatar[0]?.response?.data;
         values.status = values.status ? "1" : "0";
         if (values.id) {
           let resp = await update(values);
