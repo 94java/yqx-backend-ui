@@ -11,8 +11,15 @@ export async function getById(id:string) {
   });
 }
 
-
 /** 分类列表 POST /api/user/list */
+export async function list(data:CATEGORY.CategoryItem) {
+  return request<Record<string, any>>('/api/category/list', {
+    method: 'POST',
+    data
+  });
+}
+
+/** 分类列表 POST /api/user/page */
 export async function page(data:CATEGORY.CategoryItem) {
   return request<Record<string, any>>('/api/category/page', {
     method: 'POST',

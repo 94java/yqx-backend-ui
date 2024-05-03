@@ -83,7 +83,7 @@ export const requestConfig: RequestConfig = {
       console.log("响应",code)
       if (code && code !== 0) {
         message.error(msg);
-        return;
+        return response;
       }
       // 统一处理图片地址（添加cdn域名前缀）
       if (data?.avatar) {
@@ -100,6 +100,24 @@ export const requestConfig: RequestConfig = {
         data.forEach(element => {
           if (element?.avatar) {
             element.avatar = 'http://images.jiusi.cc' + element.avatar;
+          }
+        });
+      }
+
+      if (data?.coverImg) {
+        data.coverImg = 'http://images.jiusi.cc' + data.coverImg;
+      }
+      if (data?.list instanceof Array) {
+        data.list.forEach(element => {
+          if (element?.coverImg) {
+            element.coverImg = 'http://images.jiusi.cc' + element.coverImg;
+          }
+        });
+      }
+      if (data instanceof Array) {
+        data.forEach(element => {
+          if (element?.coverImg) {
+            element.coverImg = 'http://images.jiusi.cc' + element.coverImg;
           }
         });
       }

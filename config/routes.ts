@@ -6,6 +6,15 @@ export default [
       { name: '登录', path: '/user/login', component: './User/Login' }
     ],
   },
+  {
+    path: '/note',
+    layout: false,
+    routes: [
+      { path: '/note', redirect: '/note/Content' },
+      { name: '笔记内容', path: 'content', component: '@/pages/Note/Content' }
+    ],
+  },
+
   { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
   {
     path: '/system',
@@ -33,7 +42,7 @@ export default [
     routes: [
       { path: '/info', redirect: '/info/note' },
       { path: '/info/category', name: '分类管理', component: '@/pages/Category' },
-      { path: '/info/note', name: '笔记管理', component: './Admin' },
+      { path: '/info/note', name: '笔记管理', component: '@/pages/Note' },
       { path: '/info/video', name: '视频管理', component: './Admin' },
       { path: '/info/resources', name: '资源管理', component: './Admin' },
     ],
@@ -49,7 +58,6 @@ export default [
     ],
   },
   { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
-
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
 ];

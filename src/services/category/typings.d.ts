@@ -3,7 +3,7 @@
 
 declare namespace CATEGORY {
   type CategoryItem = {
-    id: string,
+    id?: string,
     name?: string,
     type?: string,
     status?: string,
