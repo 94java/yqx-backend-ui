@@ -1,13 +1,12 @@
-import { add, update } from "@/services/video/api";
 import { list } from "@/services/category/api";
+import { add, update } from "@/services/questionBank/api";
 import {
   DrawerForm,
   ProFormUploadButton,
+  ProFormTextArea,
   ProFormSelect,
   ProFormText,
-  ProFormRadio,
-  ProFormTextArea,
-  ProFormUploadDragger,
+  ProFormSwitch,
 } from "@ant-design/pro-components";
 import { Form, message } from "antd";
 
@@ -20,29 +19,27 @@ export default (prop: any) => {
       form={form}
       autoFocusFirstInput
       isKeyPressSubmit
-      maxWidth={window.innerWidth * 0.8}
-      minWidth={200}
-      width={400}
+      width={380}
       {...prop}
       modalProps={{
         destroyOnClose: true,
         onCancel: () => console.log("cancel"),
       }}
       onFinish={async (
-        values: CATEGORY.CategoryAdd | CATEGORY.CategoryUpdate
+        values: QUESTIONBANK.QuestionBankAdd | QUESTIONBANK.QuestionBankUpdate
       ) => {
         if (values.coverImg) {
           values.coverImg = values.coverImg[0]?.response?.data;
         }
-        values.url = values.url[0]?.response?.data;
-        if ((values as CATEGORY.CategoryItem).id) {
-          let resp = await update(values as CATEGORY.CategoryUpdate);
+        values.status = values.status ? "1" : "0";
+        if ((values as QUESTIONBANK.QuestionBankItem).id) {
+          let resp = await update(values as QUESTIONBANK.QuestionBankUpdate);
           if (resp.code === 0) {
             prop.flush();
             message.success("更新成功");
           }
         } else {
-          let resp = await add(values as CATEGORY.CategoryAdd);
+          let resp = await add(values as QUESTIONBANK.QuestionBankAdd);
           if (resp.code === 0) {
             prop.tableRef?.current?.reload();
             message.success("提交成功");
@@ -59,38 +56,26 @@ export default (prop: any) => {
         placeholder="请添加封面"
         max={1}
         action="/api/file/upload"
-        rules={[{ required: true, message: "请上传视频封面" }]}
+        rules={[{ required: true, message: "请上传题库封面" }]}
       />
       <ProFormText
         width="md"
-        name="title"
-        label="视频标题"
-        placeholder="请输入视频标题"
-        rules={[{ required: true, message: "请输入视频标题" }]}
+        name="name"
+        label="题库名"
+        placeholder="请输入题库名"
+        rules={[{ required: true, message: "请输入题库名" }]}
       />
-      <ProFormRadio.Group
-        name="type"
-        width="md"
-        label="视频类型"
-        tooltip="创作类型声明，会展示在文章头部等明显位置"
-        valueEnum={{
-          "0": { text: "原创" },
-          "1": { text: "搬运" },
-          "2": { text: "剪辑" },
-          "3": { text: "翻拍" },
-        }}
-        initialValue={"0"}
-      />
+      <ProFormText name="id" label="id" hidden />
       <ProFormSelect
         name="categoryId"
         width="md"
-        label="视频分类"
-        tooltip="请选择符合视频的分类，便于更多读者观看"
+        label="题库分类"
+        tooltip="请选择符合题库内容的分类，便于更多用户练习"
         placeholder="请选择分类"
         request={async () => {
           // 查询所有笔记的分类信息
           let { data } = await list({
-            type: "1",
+            type: "2",
           });
           const categoryList = data.map((item: CATEGORY.CategoryItem) => {
             return {
@@ -100,29 +85,40 @@ export default (prop: any) => {
           });
           return categoryList;
         }}
-        rules={[{ required: true, message: "请选择视频分类" }]}
+        rules={[{ required: true, message: "请选择题库分类" }]}
       />
-
-      <ProFormUploadDragger
+      <ProFormSelect
+        valueEnum={{
+          "0": { text: "简单" },
+          "1": { text: "一般" },
+          "2": { text: "困难" },
+        }}
+        initialValue={"0"}
         width="md"
-        name="url"
-        label="视频资源"
-        fieldProps={{ multiple: true, name: "file" }}
-        rules={[{ required: true, message: "请上传视频资源" }]}
-        max={1}
-        action="/api/file/upload"
+        name="difficulty"
+        label="题库难度"
+      />
+      <ProFormSwitch
+        width="md"
+        name="status"
+        label="状态"
+        checkedChildren="启用"
+        unCheckedChildren="停用"
+        initialValue={true}
+        fieldProps={{
+          value: true,
+        }}
       />
       <ProFormTextArea
         width="md"
         name="summary"
-        label="视频简介"
-        placeholder="请输入视频简介"
+        label="题库简介"
+        placeholder="请输入题库简介"
         fieldProps={{
           autoSize: { minRows: 6, maxRows: 6 },
           showCount: true,
         }}
       />
-      <ProFormText name="id" label="id" hidden />
     </DrawerForm>
   );
 };

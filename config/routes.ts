@@ -53,11 +53,10 @@ export default [
     icon: 'rocket',
     routes: [
       { path: '/question-bank', redirect: '/question-bank/list' },
-      { path: '/question-bank/list', name: '题库列表', component: './Admin' },
+      { path: '/question-bank/list', name: '题库列表', component: '@/pages/QuestionBank' },
       { path: '/question-bank/question', name: '题目管理', component: './Admin' }
     ],
   },
-  { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
 ];
