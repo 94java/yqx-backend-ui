@@ -71,7 +71,9 @@ const Content = () => {
       getById(id as string).then((resp) => {
         const { code, data } = resp;
         if (code === 0) {
-          data.coverImg = data.coverImg ? [{ thumbUrl: data.coverImg }] : [];
+          data.coverImg = data.coverImg
+            ? [{ thumbUrl: data.coverImg, name: data.coverImg }]
+            : [];
           form.setFieldsValue(data);
           setArtileValue(data.content);
           setTitle(data.title);

@@ -11,7 +11,7 @@ export async function getById(id:string) {
   });
 }
 
-/** 分类列表 POST /api/user/list */
+/** 分类列表 POST /api/category/list */
 export async function list(data:CATEGORY.CategoryItem) {
   return request<Record<string, any>>('/api/category/list', {
     method: 'POST',
@@ -19,7 +19,7 @@ export async function list(data:CATEGORY.CategoryItem) {
   });
 }
 
-/** 分类列表 POST /api/user/page */
+/** 分类列表 POST /api/category/page */
 export async function page(data:CATEGORY.CategoryItem) {
   return request<Record<string, any>>('/api/category/page', {
     method: 'POST',
@@ -27,7 +27,7 @@ export async function page(data:CATEGORY.CategoryItem) {
   });
 }
 
-/** 新增分类 POST /api/user/add */
+/** 新增分类 POST /api/category/add */
 export async function add(data:CATEGORY.CategoryAdd) {
   return request<Record<string, any>>('/api/category/add', {
     method: 'POST',
@@ -35,7 +35,7 @@ export async function add(data:CATEGORY.CategoryAdd) {
   });
 }
 
-/** 编辑分类 POST /api/user/update */
+/** 编辑分类 POST /api/category/update */
 export async function update(data:CATEGORY.CategoryUpdate) {
   return request<Record<string, any>>('/api/category/update', {
     method: 'POST',
@@ -43,7 +43,7 @@ export async function update(data:CATEGORY.CategoryUpdate) {
   });
 }
 
-/** 批量修改分类状态 POST /api/user/changeStatus */
+/** 批量修改分类状态 POST /api/category/changeStatus */
 export async function changeStatus(data:CATEGORY.CategoryStatusChange) {
   return request<Record<string, any>>('/api/category/changeStatus', {
     method: 'POST',
@@ -51,7 +51,7 @@ export async function changeStatus(data:CATEGORY.CategoryStatusChange) {
   });
 }
 
-/** 删除分类 POST /api/user/delete */
+/** 删除分类 POST /api/category/delete */
 export async function deleteByIds(data:(number[] | string[])) {
   return request<Record<string, any>>('/api/category/delete', {
     method: 'POST',

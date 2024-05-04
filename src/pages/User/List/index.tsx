@@ -177,7 +177,7 @@ const columns: ProColumns<UserItem>[] = [
             id: record.id,
           });
           data.avatar = data.avatar
-            ? [{ thumbUrl: data.avatar }]
+            ? [{ thumbUrl: data.avatar, name: data.avatar }]
             : [];
           data.status = data.status === "0" ? false : true;
           return data;

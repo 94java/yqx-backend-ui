@@ -1,4 +1,5 @@
-import { add, update, list } from "@/services/video/api";
+import { add, update } from "@/services/video/api";
+import { list } from "@/services/category/api";
 import {
   DrawerForm,
   ProFormUploadButton,
@@ -30,6 +31,7 @@ export default (prop: any) => {
       onFinish={async (
         values: CATEGORY.CategoryAdd | CATEGORY.CategoryUpdate
       ) => {
+        console.log("111", values);
         if (values.coverImg) {
           values.coverImg = values.coverImg[0]?.response?.data;
         }
@@ -58,6 +60,7 @@ export default (prop: any) => {
         placeholder="请添加封面"
         max={1}
         action="/api/file/upload"
+        rules={[{ required: true, message: "请上传视频封面" }]}
       />
       <ProFormText
         width="md"
@@ -105,7 +108,7 @@ export default (prop: any) => {
         width="md"
         name="url"
         label="视频资源"
-        fieldProps={{ multiple: true, name :'file'}}
+        fieldProps={{ multiple: true, name: "file" }}
         rules={[{ required: true, message: "请上传视频资源" }]}
         max={1}
         action="/api/file/upload"

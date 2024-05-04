@@ -86,38 +86,58 @@ export const requestConfig: RequestConfig = {
         return response;
       }
       // 统一处理图片地址（添加cdn域名前缀）
+      const baseUrl = 'http://images.jiusi.cc';
+      // 分页
       if (data?.avatar) {
-        data.avatar = 'http://images.jiusi.cc' + data.avatar;
+        data.avatar = baseUrl + data.avatar;
       }
       if (data?.list instanceof Array) {
         data.list.forEach(element => {
           if (element?.avatar) {
-            element.avatar = 'http://images.jiusi.cc' + element.avatar;
+            element.avatar = baseUrl + element.avatar;
           }
         });
       }
       if (data instanceof Array) {
         data.forEach(element => {
           if (element?.avatar) {
-            element.avatar = 'http://images.jiusi.cc' + element.avatar;
+            element.avatar = baseUrl + element.avatar;
           }
         });
       }
-
+      // 封面
       if (data?.coverImg) {
-        data.coverImg = 'http://images.jiusi.cc' + data.coverImg;
+        data.coverImg = baseUrl + data.coverImg;
       }
       if (data?.list instanceof Array) {
         data.list.forEach(element => {
           if (element?.coverImg) {
-            element.coverImg = 'http://images.jiusi.cc' + element.coverImg;
+            element.coverImg = baseUrl + element.coverImg;
           }
         });
       }
       if (data instanceof Array) {
         data.forEach(element => {
           if (element?.coverImg) {
-            element.coverImg = 'http://images.jiusi.cc' + element.coverImg;
+            element.coverImg = baseUrl + element.coverImg;
+          }
+        });
+      }
+      // 视频url
+      if (data?.url) {
+        data.url = baseUrl + data.url;
+      }
+      if (data?.list instanceof Array) {
+        data.list.forEach(element => {
+          if (element?.url) {
+            element.url = baseUrl + element.url;
+          }
+        });
+      }
+      if (data instanceof Array) {
+        data.forEach(element => {
+          if (element?.url) {
+            element.url = baseUrl + element.url;
           }
         });
       }

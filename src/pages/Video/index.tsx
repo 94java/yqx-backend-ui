@@ -36,6 +36,11 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     dataIndex: "title",
     ellipsis: true,
     key: "title",
+    render: (_, record) => (
+      <Button type="link" href={record.url} target="_blank">
+        {record.title}
+      </Button>
+    ),
   },
   {
     title: "简介",
@@ -45,14 +50,14 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     key: "summary",
     hideInSearch: true,
   },
-  {
-    title: "视频链接",
-    width: 120,
-    dataIndex: "url",
-    ellipsis: true,
-    key: "url",
-    hideInSearch: true,
-  },
+  // {
+  //   title: "视频链接",
+  //   width: 120,
+  //   dataIndex: "url",
+  //   ellipsis: true,
+  //   key: "url",
+  //   hideInSearch: true,
+  // },
   {
     title: "类型",
     width: 120,
@@ -89,6 +94,7 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     dataIndex: "categoryId",
     ellipsis: true,
     key: "categoryId",
+    render: (_, record) => <>{record.category?.name}</>,
   },
   {
     title: "作者",
@@ -96,6 +102,7 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     dataIndex: "userId",
     ellipsis: true,
     key: "userId",
+    render: (_, record) => <>{record.user?.nickname}</>,
   },
   {
     title: "播放量",
@@ -174,8 +181,10 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
         }}
         request={async () => {
           let { data } = await getById(record.id as string);
-          data.coverImg = data.coverImg ? [{ thumbUrl: data.coverImg }] : [];
-          data.url = data.url ? [{ thumbUrl: data.url }] : [];
+          data.coverImg = data.coverImg
+            ? [{ thumbUrl: data.coverImg, name: data.coverImg }]
+            : [];
+          data.url = data.url ? [{ thumbUrl: data.url, name: data.url }] : [];
           return data;
         }}
         trigger={<a>编辑</a>}
@@ -256,13 +265,13 @@ export default () => {
           menu={{
             items: [
               {
-                label: "停用",
+                label: "审核不通过",
                 key: "1",
                 disabled: selectedRowKeys.length === 0 ? true : false,
                 onClick: async () => {
                   confirm({
                     title: "提示",
-                    content: "确定停用所选项吗？",
+                    content: "确定设置所选项为审核不通过吗？",
                     icon: <ExclamationCircleOutlined />,
                     okText: "确定",
                     okType: "danger",
@@ -273,7 +282,7 @@ export default () => {
                         status: "0",
                       });
                       if (resp.code === 0) {
-                        message.success("停用成功");
+                        message.success("设置成功");
                         actionRef.current.reload();
                       }
                     },
@@ -282,13 +291,13 @@ export default () => {
                 },
               },
               {
-                label: "启用",
+                label: "审核通过",
                 key: "2",
                 disabled: selectedRowKeys.length === 0 ? true : false,
                 onClick: async () => {
                   confirm({
                     title: "提示",
-                    content: "确定启用所选项吗？",
+                    content: "确定设置所选项为审核通过吗？",
                     icon: <ExclamationCircleOutlined />,
                     okText: "确定",
                     okType: "danger",
@@ -299,7 +308,7 @@ export default () => {
                         status: "1",
                       });
                       if (resp.code === 0) {
-                        message.success("启用成功");
+                        message.success("设置成功");
                         actionRef.current.reload();
                       }
                     },
