@@ -1,13 +1,12 @@
 import { ExclamationCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import type { ProColumns } from "@ant-design/pro-components";
-import { ProTable } from "@ant-design/pro-components";
+import { PageContainer, ProTable } from "@ant-design/pro-components";
 import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
 import { useRef, useState } from "react";
 import { changeStatus, deleteByIds, getById, page } from "@/services/video/api";
 import AddModal from "./Modal";
 
 const { confirm } = Modal;
-
 
 const columns: ProColumns<VIDEO.VideoItem>[] = [
   {
@@ -217,136 +216,138 @@ export default () => {
   const actionRef: any = useRef();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   return (
-    <ProTable<CATEGORY.CategoryItem>
-      rowSelection={{
-        selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT],
-        defaultSelectedRowKeys: [],
-        onChange(selectedRowKeys) {
-          setSelectedRowKeys(selectedRowKeys);
-        },
-      }}
-      rowKey="id"
-      actionRef={actionRef}
-      columns={columns}
-      scroll={{ x: 1200 }}
-      request={async (params, sort, filter) => {
-        let res = await page({
-          ...params,
-          pageNum: params.current,
-        });
-        return {
-          data: res.data.list,
-          success: true,
-          total: res.data.total,
-        };
-      }}
-      search={{
-        labelWidth: "auto",
-      }}
-      pagination={{
-        pageSize: 5,
-        onChange: (page) => console.log(page),
-      }}
-      dateFormatter="string"
-      headerTitle="视频列表"
-      toolBarRender={() => [
-        <AddModal
-          key="add"
-          title="添加视频"
-          tableRef={actionRef}
-          trigger={
-            <Button key="button" icon={<PlusOutlined />} type="primary">
-              新建
-            </Button>
-          }
-        />,
-        <Dropdown
-          key="menu"
-          menu={{
-            items: [
-              {
-                label: "审核不通过",
-                key: "1",
-                disabled: selectedRowKeys.length === 0 ? true : false,
-                onClick: async () => {
-                  confirm({
-                    title: "提示",
-                    content: "确定设置所选项为审核不通过吗？",
-                    icon: <ExclamationCircleOutlined />,
-                    okText: "确定",
-                    okType: "danger",
-                    cancelText: "取消",
-                    onOk: async () => {
-                      let resp = await changeStatus({
-                        ids: selectedRowKeys,
-                        status: "0",
-                      });
-                      if (resp.code === 0) {
-                        message.success("设置成功");
-                        actionRef.current.reload();
-                      }
-                    },
-                    onCancel() {},
-                  });
+    <PageContainer>
+      <ProTable<CATEGORY.CategoryItem>
+        rowSelection={{
+          selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT],
+          defaultSelectedRowKeys: [],
+          onChange(selectedRowKeys) {
+            setSelectedRowKeys(selectedRowKeys);
+          },
+        }}
+        rowKey="id"
+        actionRef={actionRef}
+        columns={columns}
+        scroll={{ x: 1200 }}
+        request={async (params, sort, filter) => {
+          let res = await page({
+            ...params,
+            pageNum: params.current,
+          });
+          return {
+            data: res.data.list,
+            success: true,
+            total: res.data.total,
+          };
+        }}
+        search={{
+          labelWidth: "auto",
+        }}
+        pagination={{
+          pageSize: 5,
+          onChange: (page) => console.log(page),
+        }}
+        dateFormatter="string"
+        headerTitle="视频列表"
+        toolBarRender={() => [
+          <AddModal
+            key="add"
+            title="添加视频"
+            tableRef={actionRef}
+            trigger={
+              <Button key="button" icon={<PlusOutlined />} type="primary">
+                新建
+              </Button>
+            }
+          />,
+          <Dropdown
+            key="menu"
+            menu={{
+              items: [
+                {
+                  label: "审核不通过",
+                  key: "1",
+                  disabled: selectedRowKeys.length === 0 ? true : false,
+                  onClick: async () => {
+                    confirm({
+                      title: "提示",
+                      content: "确定设置所选项为审核不通过吗？",
+                      icon: <ExclamationCircleOutlined />,
+                      okText: "确定",
+                      okType: "danger",
+                      cancelText: "取消",
+                      onOk: async () => {
+                        let resp = await changeStatus({
+                          ids: selectedRowKeys,
+                          status: "0",
+                        });
+                        if (resp.code === 0) {
+                          message.success("设置成功");
+                          actionRef.current.reload();
+                        }
+                      },
+                      onCancel() {},
+                    });
+                  },
                 },
-              },
-              {
-                label: "审核通过",
-                key: "2",
-                disabled: selectedRowKeys.length === 0 ? true : false,
-                onClick: async () => {
-                  confirm({
-                    title: "提示",
-                    content: "确定设置所选项为审核通过吗？",
-                    icon: <ExclamationCircleOutlined />,
-                    okText: "确定",
-                    okType: "danger",
-                    cancelText: "取消",
-                    onOk: async () => {
-                      let resp = await changeStatus({
-                        ids: selectedRowKeys,
-                        status: "1",
-                      });
-                      if (resp.code === 0) {
-                        message.success("设置成功");
-                        actionRef.current.reload();
-                      }
-                    },
-                    onCancel() {},
-                  });
+                {
+                  label: "审核通过",
+                  key: "2",
+                  disabled: selectedRowKeys.length === 0 ? true : false,
+                  onClick: async () => {
+                    confirm({
+                      title: "提示",
+                      content: "确定设置所选项为审核通过吗？",
+                      icon: <ExclamationCircleOutlined />,
+                      okText: "确定",
+                      okType: "danger",
+                      cancelText: "取消",
+                      onOk: async () => {
+                        let resp = await changeStatus({
+                          ids: selectedRowKeys,
+                          status: "1",
+                        });
+                        if (resp.code === 0) {
+                          message.success("设置成功");
+                          actionRef.current.reload();
+                        }
+                      },
+                      onCancel() {},
+                    });
+                  },
                 },
-              },
-              {
-                label: "删除",
-                key: "3",
-                disabled: selectedRowKeys.length === 0 ? true : false,
-                onClick: async () => {
-                  confirm({
-                    title: "提示",
-                    content: "确定删除所选项吗？",
-                    icon: <ExclamationCircleOutlined />,
-                    okText: "确定",
-                    okType: "danger",
-                    cancelText: "取消",
-                    onOk: async () => {
-                      let resp = await deleteByIds({
-                        ids: selectedRowKeys,
-                      });
-                      if (resp.code === 0) {
-                        message.success("删除成功");
-                        actionRef.current.reload();
-                      }
-                    },
-                    onCancel() {},
-                  });
+                {
+                  label: "删除",
+                  key: "3",
+                  disabled: selectedRowKeys.length === 0 ? true : false,
+                  onClick: async () => {
+                    confirm({
+                      title: "提示",
+                      content: "确定删除所选项吗？",
+                      icon: <ExclamationCircleOutlined />,
+                      okText: "确定",
+                      okType: "danger",
+                      cancelText: "取消",
+                      onOk: async () => {
+                        let resp = await deleteByIds({
+                          ids: selectedRowKeys,
+                        });
+                        if (resp.code === 0) {
+                          message.success("删除成功");
+                          actionRef.current.reload();
+                        }
+                      },
+                      onCancel() {},
+                    });
+                  },
                 },
-              },
-            ],
-          }}
-        >
-          <Button key="more">更多</Button>
-        </Dropdown>,
-      ]}
-    />
+              ],
+            }}
+          >
+            <Button key="more">更多</Button>
+          </Dropdown>,
+        ]}
+      />
+    </PageContainer>
   );
 };

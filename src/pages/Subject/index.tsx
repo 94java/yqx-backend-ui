@@ -3,34 +3,20 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { PageContainer, ProTable } from "@ant-design/pro-components";
 import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
 import { useRef, useState } from "react";
-import { changeStatus, deleteByIds, getById, page } from "@/services/user/api";
-import AddModal from "../Modal";
+import {
+  changeStatus,
+  deleteByIds,
+  getById,
+  page,
+} from "@/services/subject/api";
+import AddModal from "./Modal";
+import { list } from "@/services/questionBank/api";
+import { history } from "@umijs/max";
+
 
 const { confirm } = Modal;
 
-type UserItem = {
-  id: string;
-  username?: string;
-  nickname?: string;
-  age?: number;
-  sex?: string;
-  phone?: string;
-  email?: string;
-  avatar?: string;
-  sign?: string;
-  status?: string;
-  province?: string;
-  city?: string;
-  visitorCount?: number;
-  lastLoginTime?: Date;
-  lastLoginIp?: string;
-  createBy?: string;
-  createTime?: Date;
-  updateBy?: string;
-  updateTime?: Date;
-};
-
-const columns: ProColumns<UserItem>[] = [
+const columns: ProColumns<CATEGORY.CategoryItem>[] = [
   {
     title: "id",
     dataIndex: "id",
@@ -40,52 +26,67 @@ const columns: ProColumns<UserItem>[] = [
     key: "id",
   },
   {
-    title: "用户名",
-    width: 120,
-    dataIndex: "username",
+    title: "题目内容",
+    width: 150,
+    dataIndex: "content",
     ellipsis: true,
-    key: "username",
+    key: "content",
+    hideInSearch: true,
   },
   {
-    title: "头像",
-    dataIndex: "avatar",
-    width: 80,
-    key: "image",
+    title: "题目图片",
+    width: 145,
+    dataIndex: "contentImg",
+    key: "contentImg",
     valueType: "image",
-    search: false,
-  },
-  {
-    title: "昵称",
-    width: 120,
-    ellipsis: true,
-    key: "nickname",
-    dataIndex: "nickname",
-  },
-  {
-    title: "性别",
-    width: 80,
-    dataIndex: "sex",
-    key: "sex",
-    valueEnum: {
-      "": { text: "全部" },
-      "1": { text: "男" },
-      "0": { text: "女" },
+    fieldProps: {
+      height: 80,
+      width: 120,
     },
-    search: false,
+    hideInSearch: true,
   },
   {
-    title: "年龄",
-    width: 80,
-    dataIndex: "age",
-    search: false,
-    key: "age",
-  },
-  {
-    title: "邮箱",
+    title: "题目类型",
     width: 120,
     ellipsis: true,
-    dataIndex: "email",
-    key: "email",
+    key: "type",
+    dataIndex: "type",
+    valueEnum: {
+      "0": { text: "单选" },
+      "1": { text: "多选" },
+      "2": { text: "填空" },
+    },
+  },
+  {
+    title: "题目难度",
+    width: 120,
+    ellipsis: true,
+    key: "difficulty",
+    dataIndex: "difficulty",
+    valueEnum: {
+      "0": { text: "简单" },
+      "1": { text: "一般" },
+      "2": { text: "困难" },
+    },
+  },
+  {
+    title: "所属题库",
+    width: 120,
+    ellipsis: true,
+    key: "bankId",
+    dataIndex: "bankId",
+    request: async () => {
+      // 查询所有笔记的分类信息
+      let { data } = await list({});
+      const bankList = data.map((item: QUESTIONBANK.QuestionBankItem) => {
+        return {
+          label: item.name,
+          value: item.id,
+        };
+      });
+      return bankList;
+    },
+    render: (_, record) => <>{record.questionBank?.name}</>,
   },
   {
     title: "状态",
@@ -93,48 +94,22 @@ const columns: ProColumns<UserItem>[] = [
     dataIndex: "status",
     key: "status",
     valueEnum: {
-      "": { text: "全部" },
       "1": { text: "正常" },
-      "0": { text: "禁用" },
+      "0": { text: "停用" },
     },
     render: (_, record) => (
       <Tag color={record.status === "1" ? "green" : "red"}>
-        {record.status === "1" ? "正常" : "禁用"}
+        {record.status === "1" ? "正常" : "停用"}
       </Tag>
     ),
   },
   {
-    title: "最后登录时间",
-    width: 155,
-    key: "showLastLoginTime",
-    dataIndex: "lastLoginTime",
-    valueType: "dateTime",
-    sorter: true,
-    hideInSearch: true,
+    title: "创建者",
+    width: 120,
+    dataIndex: "createBy",
+    ellipsis: true,
+    key: "createBy",
   },
-  {
-    title: "最后登录时间",
-    width: 100,
-    dataIndex: "lastLoginTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "searchLastLoginTime",
-    search: {
-      transform: (value) => {
-        return {
-          lastLoginTime: value,
-        };
-      },
-    },
-  },
-  {
-    title: "最后登录ip",
-    width: 155,
-    dataIndex: "lastLoginIp",
-    search: false,
-    key: "lastLoginIp",
-  },
-
   {
     title: "创建时间",
     width: 155,
@@ -164,20 +139,26 @@ const columns: ProColumns<UserItem>[] = [
     valueType: "option",
     key: "option",
     fixed: "right",
-    width: 100,
+    width: 150,
     render: (text, record, _, action) => [
+      <a
+        rel="noopener noreferrer"
+        key="config"
+        // to={"/question-bank/question/answer?id=" + record.id}
+        onClick={() => {history.push("/question-bank/question/answer?subjectId=" + record.id)}}
+      >
+        配置选项
+      </a>,
       <AddModal
         key="edit"
-        title="编辑用户"
+        title="编辑题目"
         flush={() => {
           action?.reload();
         }}
         request={async () => {
-          let { data } = await getById({
-            id: record.id,
-          });
-          data.avatar = data.avatar
-            ? [{ thumbUrl: data.avatar, name: data.avatar }]
+          let { data } = await getById(record.id);
+          data.contentImg = data.contentImg
+            ? [{ thumbUrl: data.contentImg, name: data.contentImg }]
             : [];
           data.status = data.status === "0" ? false : true;
           return data;
@@ -213,7 +194,7 @@ export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   return (
     <PageContainer>
-      <ProTable<UserItem>
+      <ProTable<CATEGORY.CategoryItem>
         rowSelection={{
           selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT],
           defaultSelectedRowKeys: [],
@@ -244,11 +225,11 @@ export default () => {
           onChange: (page) => console.log(page),
         }}
         dateFormatter="string"
-        headerTitle="用户列表"
+        headerTitle="题目列表"
         toolBarRender={() => [
           <AddModal
             key="add"
-            title="添加用户"
+            title="添加题目"
             tableRef={actionRef}
             trigger={
               <Button key="button" icon={<PlusOutlined />} type="primary">
@@ -261,13 +242,13 @@ export default () => {
             menu={{
               items: [
                 {
-                  label: "禁用",
+                  label: "停用",
                   key: "1",
                   disabled: selectedRowKeys.length === 0 ? true : false,
                   onClick: async () => {
                     confirm({
                       title: "提示",
-                      content: "确定禁用所选项吗？",
+                      content: "确定停用所选项吗？",
                       icon: <ExclamationCircleOutlined />,
                       okText: "确定",
                       okType: "danger",
@@ -278,7 +259,7 @@ export default () => {
                           status: "0",
                         });
                         if (resp.code === 0) {
-                          message.success("禁用成功");
+                          message.success("停用成功");
                           actionRef.current.reload();
                         }
                       },

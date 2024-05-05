@@ -141,6 +141,24 @@ export const requestConfig: RequestConfig = {
           }
         });
       }
+      // 题目内容图片
+      if (data?.contentImg) {
+        data.contentImg = baseUrl + data.contentImg;
+      }
+      if (data?.list instanceof Array) {
+        data.list.forEach(element => {
+          if (element?.contentImg) {
+            element.contentImg = baseUrl + element.contentImg;
+          }
+        });
+      }
+      if (data instanceof Array) {
+        data.forEach(element => {
+          if (element?.contentImg) {
+            element.contentImg = baseUrl + element.contentImg;
+          }
+        });
+      }
       return response;
     },
   ],

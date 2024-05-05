@@ -54,8 +54,24 @@ export default [
     routes: [
       { path: '/question-bank', redirect: '/question-bank/list' },
       { path: '/question-bank/list', name: '题库列表', component: '@/pages/QuestionBank' },
-      { path: '/question-bank/question', name: '题目管理', component: './Admin' }
+      {
+        path: '/question-bank/question',
+        name: '题目管理',
+        hideChildrenInMenu: true,
+        routes: [
+          { path: '/question-bank/question', redirect: '/question-bank/question/list' },
+          { path: '/question-bank/question/list', name: '题目列表', component: '@/pages/Subject' },
+          { path: '/question-bank/question/answer', name: '选项配置', component: '@/pages/Answer' },
+        ]
+      },
     ],
+  },
+  {
+    path: '/question', name: '选项配置',hideInMenu: true,
+    routes: [
+      { path: '/question', redirect: '/question/answer' },
+      { path: '/question/answer', name: '选项配置', component: './Admin' },
+    ]
   },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
