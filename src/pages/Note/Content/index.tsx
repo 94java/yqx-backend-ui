@@ -167,8 +167,8 @@ const Content = () => {
               return false;
             }
             // 图片处理
-            if (values.coverImg) {
-              values.coverImg = (values.coverImg[0] as any).response?.data;
+            if (values.coverImg !== '') {
+              values.coverImg = (values.coverImg[0] as any)?.response?.data;
             }
             // 构建请求
             const req: NOTE.NoteAdd | NOTE.NoteUpdate = {

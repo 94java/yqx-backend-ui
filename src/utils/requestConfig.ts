@@ -79,86 +79,86 @@ export const requestConfig: RequestConfig = {
   responseInterceptors: [
     (response) => {
       // 拦截响应数据，进行个性化处理
-      const { data:{data,code,message:msg} } = response as unknown as ResponseStructure;
+      const { data:{code,message:msg} } = response as unknown as ResponseStructure;
       console.log("响应",code)
       if (code && code !== 0) {
         message.error(msg);
         return response;
       }
-      // 统一处理图片地址（添加cdn域名前缀）
-      const baseUrl = 'http://images.jiusi.cc';
-      // 分页
-      if (data?.avatar) {
-        data.avatar = baseUrl + data.avatar;
-      }
-      if (data?.list instanceof Array) {
-        data.list.forEach(element => {
-          if (element?.avatar) {
-            element.avatar = baseUrl + element.avatar;
-          }
-        });
-      }
-      if (data instanceof Array) {
-        data.forEach(element => {
-          if (element?.avatar) {
-            element.avatar = baseUrl + element.avatar;
-          }
-        });
-      }
-      // 封面
-      if (data?.coverImg) {
-        data.coverImg = baseUrl + data.coverImg;
-      }
-      if (data?.list instanceof Array) {
-        data.list.forEach(element => {
-          if (element?.coverImg) {
-            element.coverImg = baseUrl + element.coverImg;
-          }
-        });
-      }
-      if (data instanceof Array) {
-        data.forEach(element => {
-          if (element?.coverImg) {
-            element.coverImg = baseUrl + element.coverImg;
-          }
-        });
-      }
-      // 视频url
-      if (data?.url) {
-        data.url = baseUrl + data.url;
-      }
-      if (data?.list instanceof Array) {
-        data.list.forEach(element => {
-          if (element?.url) {
-            element.url = baseUrl + element.url;
-          }
-        });
-      }
-      if (data instanceof Array) {
-        data.forEach(element => {
-          if (element?.url) {
-            element.url = baseUrl + element.url;
-          }
-        });
-      }
-      // 题目内容图片
-      if (data?.contentImg) {
-        data.contentImg = baseUrl + data.contentImg;
-      }
-      if (data?.list instanceof Array) {
-        data.list.forEach(element => {
-          if (element?.contentImg) {
-            element.contentImg = baseUrl + element.contentImg;
-          }
-        });
-      }
-      if (data instanceof Array) {
-        data.forEach(element => {
-          if (element?.contentImg) {
-            element.contentImg = baseUrl + element.contentImg;
-          }
-        });
-      }
+      // // 统一处理图片地址（添加cdn域名前缀）
+      // const baseUrl = 'http://images.jiusi.cc';
+      // // 分页
+      // if (data?.avatar) {
+      //   data.avatar = baseUrl + data.avatar;
+      // }
+      // if (data?.list instanceof Array) {
+      //   data.list.forEach(element => {
+      //     if (element?.avatar) {
+      //       element.avatar = baseUrl + element.avatar;
+      //     }
+      //   });
+      // }
+      // if (data instanceof Array) {
+      //   data.forEach(element => {
+      //     if (element?.avatar) {
+      //       element.avatar = baseUrl + element.avatar;
+      //     }
+      //   });
+      // }
+      // // 封面
+      // if (data?.coverImg) {
+      //   data.coverImg = baseUrl + data.coverImg;
+      // }
+      // if (data?.list instanceof Array) {
+      //   data.list.forEach(element => {
+      //     if (element?.coverImg) {
+      //       element.coverImg = baseUrl + element.coverImg;
+      //     }
+      //   });
+      // }
+      // if (data instanceof Array) {
+      //   data.forEach(element => {
+      //     if (element?.coverImg) {
+      //       element.coverImg = baseUrl + element.coverImg;
+      //     }
+      //   });
+      // }
+      // // 视频url
+      // if (data?.url) {
+      //   data.url = baseUrl + data.url;
+      // }
+      // if (data?.list instanceof Array) {
+      //   data.list.forEach(element => {
+      //     if (element?.url) {
+      //       element.url = baseUrl + element.url;
+      //     }
+      //   });
+      // }
+      // if (data instanceof Array) {
+      //   data.forEach(element => {
+      //     if (element?.url) {
+      //       element.url = baseUrl + element.url;
+      //     }
+      //   });
+      // }
+      // // 题目内容图片
+      // if (data?.contentImg) {
+      //   data.contentImg = baseUrl + data.contentImg;
+      // }
+      // if (data?.list instanceof Array) {
+      //   data.list.forEach(element => {
+      //     if (element?.contentImg) {
+      //       element.contentImg = baseUrl + element.contentImg;
+      //     }
+      //   });
+      // }
+      // if (data instanceof Array) {
+      //   data.forEach(element => {
+      //     if (element?.contentImg) {
+      //       element.contentImg = baseUrl + element.contentImg;
+      //     }
+      //   });
+      // }
       return response;
     },
   ],
