@@ -3,9 +3,16 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { PageContainer, ProTable } from "@ant-design/pro-components";
 import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
 import { useRef, useState } from "react";
-import { changeStatus, deleteByIds, getById, page } from "@/services/user/api";
-import AddModal from "../Modal";
-
+import {
+  changeStatus,
+  deleteByIds,
+  getById,
+  page,
+  update,
+} from "@/services/user/api";
+import AddModal from "./Modal";
+import { ModalForm, ProFormSelect } from "@ant-design/pro-components";
+import { list } from "@/services/role/api";
 const { confirm } = Modal;
 
 type UserItem = {
@@ -19,6 +26,7 @@ type UserItem = {
   avatar?: string;
   sign?: string;
   status?: string;
+  role?: string;
   province?: string;
   city?: string;
   visitorCount?: number;
@@ -60,6 +68,13 @@ const columns: ProColumns<UserItem>[] = [
     ellipsis: true,
     key: "nickname",
     dataIndex: "nickname",
+  },
+  {
+    title: "角色",
+    width: 120,
+    ellipsis: true,
+    key: "role",
+    dataIndex: "role",
   },
   {
     title: "性别",
@@ -164,8 +179,51 @@ const columns: ProColumns<UserItem>[] = [
     valueType: "option",
     key: "option",
     fixed: "right",
-    width: 100,
+    width: 150,
     render: (text, record, _, action) => [
+      <ModalForm<{
+        name: string;
+        company: string;
+      }>
+        key="1"
+        trigger={
+          <a rel="noopener noreferrer" key="delete" onClick={() => {}}>
+            分配角色
+          </a>
+        }
+        autoFocusFirstInput
+        width={350}
+        submitTimeout={2000}
+        onFinish={async (values) => {
+          update({ id: record.id, ...values }).then((resp) => {
+            if (resp.code === 0) {
+              // 修改成功
+              message.success("修改成功");
+              action?.reload();
+            }
+          });
+          return true;
+        }}
+      >
+        <ProFormSelect
+          name="role"
+          width="md"
+          label="用户角色"
+          placeholder="请选择用户角色"
+          initialValue={record.role}
+          request={async () => {
+            // 查询所有用户角色信息
+            let { data } = await list({});
+            const roleList = data.map((item: ROLE.RoleItem) => {
+              return {
+                label: item.name,
+                value: item.roleTag,
+              };
+            });
+            return roleList;
+          }}
+        />
+      </ModalForm>,
       <AddModal
         key="edit"
         title="编辑用户"

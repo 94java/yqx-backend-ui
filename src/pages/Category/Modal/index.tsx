@@ -58,7 +58,6 @@ export default (prop: any) => {
           "0": { text: "笔记" },
           "1": { text: "视频" },
           "2": { text: "题库" },
-          "3": { text: "资源" },
         }}
         initialValue={'0'}
         width="md"

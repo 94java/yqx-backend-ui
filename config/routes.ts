@@ -15,7 +15,7 @@ export default [
     ],
   },
 
-  { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
+  { path: '/dashboard', name: '数据统计', icon: 'PieChartOutlined', component: '@/pages/Dashboard' },
   {
     path: '/system',
     name: '系统管理',
@@ -23,8 +23,7 @@ export default [
     access: 'canAdmin',
     routes: [
       { path: '/system', redirect: '/system/admin' },
-      { path: '/system/admin', name: '管理员管理', component: './Admin' },
-      { path: '/system/role', name: '角色管理', component: './Admin' },
+      { path: '/system/role', name: '角色管理', component: '@/pages/System/Role' },
       { path: '/system/notice', name: '通知公告', component: './Admin' },
       { path: '/system/log', name: '日志管理', component: './Admin' }
     ],
@@ -33,7 +32,8 @@ export default [
     path: '/user/list',
     name: '用户管理',
     icon: 'team',
-    component: '@/pages/User/List'
+    component: '@/pages/User',
+    access: 'canAdmin',
   },
   {
     path: '/info',
@@ -41,16 +41,17 @@ export default [
     icon: 'switcher',
     routes: [
       { path: '/info', redirect: '/info/note' },
-      { path: '/info/category', name: '分类管理', component: '@/pages/Category' },
+      { path: '/info/category', name: '分类管理', component: '@/pages/Category',access: 'canAdmin' },
       { path: '/info/note', name: '笔记管理', component: '@/pages/Note' },
       { path: '/info/video', name: '视频管理', component: '@/pages/Video' },
-      { path: '/info/resources', name: '资源管理', component: './Admin' },
+      { path: '/info/popular', name: '动态管理', component: '@/pages/Popular' },
     ],
   },
   {
     path: '/question-bank',
     name: '题库管理',
     icon: 'rocket',
+    access: 'canAdmin',
     routes: [
       { path: '/question-bank', redirect: '/question-bank/list' },
       { path: '/question-bank/list', name: '题库列表', component: '@/pages/QuestionBank' },
@@ -67,12 +68,18 @@ export default [
     ],
   },
   {
+    path: '/comment/list',
+    name: '评论管理',
+    icon: 'message',
+    component: '@/pages/Comment'
+  },
+  {
     path: '/question', name: '选项配置',hideInMenu: true,
     routes: [
       { path: '/question', redirect: '/question/answer' },
       { path: '/question/answer', name: '选项配置', component: './Admin' },
     ]
   },
-  { path: '/', redirect: '/welcome' },
+  { path: '/', redirect: '/dashboard' },
   { path: '*', layout: false, component: './404' },
 ];

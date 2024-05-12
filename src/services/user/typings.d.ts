@@ -21,6 +21,7 @@ declare namespace USER {
     sex?: string;
     avatar?: string;
     sign?: string;
+    role?: string;
     province?: string;
     city?: string;
     visitorCount?: number;

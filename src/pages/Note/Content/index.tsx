@@ -45,7 +45,6 @@ const plugins = [
   math(),
   mediumZoom(),
   mermaid(),
-  // Add more plugins here
 ];
 
 

@@ -1,13 +1,12 @@
 import { ExclamationCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import type { ProColumns } from "@ant-design/pro-components";
 import { PageContainer, ProTable } from "@ant-design/pro-components";
-import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
+import { Button, Dropdown, Popconfirm, Table, message, Modal } from "antd";
 import { useRef, useState } from "react";
-import { changeStatus, deleteByIds, getById, page } from "@/services/category/api";
+import { deleteByIds, getById, page } from "@/services/role/api";
 import AddModal from "./Modal";
 
 const { confirm } = Modal;
-
 
 const columns: ProColumns<CATEGORY.CategoryItem>[] = [
   {
@@ -19,40 +18,18 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     key: "id",
   },
   {
-    title: "分类名",
+    title: "角色名",
     width: 120,
     dataIndex: "name",
     ellipsis: true,
     key: "name",
   },
   {
-    title: "分类类型",
+    title: "角色标识",
     width: 120,
     ellipsis: true,
-    key: "type",
-    dataIndex: "type",
-    valueEnum: {
-      "": { text: "全部" },
-      "0": { text: "笔记" },
-      "1": { text: "视频" },
-      "2": { text: "题库" },
-    },
-  },
-  {
-    title: "状态",
-    width: 80,
-    dataIndex: "status",
-    key: "status",
-    valueEnum: {
-      "": { text: "全部" },
-      "1": { text: "正常" },
-      "0": { text: "停用" },
-    },
-    render: (_, record) => (
-      <Tag color={record.status === "1" ? "green" : "red"}>
-        {record.status === "1" ? "正常" : "停用"}
-      </Tag>
-    ),
+    key: "roleTag",
+    dataIndex: "roleTag",
   },
   {
     title: "创建时间",
@@ -88,21 +65,6 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     hideInSearch: true,
   },
   {
-    title: "修改时间",
-    width: 100,
-    dataIndex: "updateTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "updateTime",
-    search: {
-      transform: (value) => {
-        return {
-          updateTime: value,
-        };
-      },
-    },
-  },
-  {
     title: "操作",
     valueType: "option",
     key: "option",
@@ -116,8 +78,8 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
           action?.reload();
         }}
         request={async () => {
-          let {data} = await getById(record.id);
-          data.status = data.status === '0' ? false : true
+          let { data } = await getById(record.id);
+          data.status = data.status === "0" ? false : true;
           return data;
         }}
         trigger={<a>编辑</a>}
@@ -199,60 +161,8 @@ export default () => {
             menu={{
               items: [
                 {
-                  label: "停用",
-                  key: "1",
-                  disabled: selectedRowKeys.length === 0 ? true : false,
-                  onClick: async () => {
-                    confirm({
-                      title: "提示",
-                      content: "确定停用所选项吗？",
-                      icon: <ExclamationCircleOutlined />,
-                      okText: "确定",
-                      okType: "danger",
-                      cancelText: "取消",
-                      onOk: async () => {
-                        let resp = await changeStatus({
-                          ids: selectedRowKeys,
-                          status: "0",
-                        });
-                        if (resp.code === 0) {
-                          message.success("停用成功");
-                          actionRef.current.reload();
-                        }
-                      },
-                      onCancel() {},
-                    });
-                  },
-                },
-                {
-                  label: "启用",
-                  key: "2",
-                  disabled: selectedRowKeys.length === 0 ? true : false,
-                  onClick: async () => {
-                    confirm({
-                      title: "提示",
-                      content: "确定启用所选项吗？",
-                      icon: <ExclamationCircleOutlined />,
-                      okText: "确定",
-                      okType: "danger",
-                      cancelText: "取消",
-                      onOk: async () => {
-                        let resp = await changeStatus({
-                          ids: selectedRowKeys,
-                          status: "1",
-                        });
-                        if (resp.code === 0) {
-                          message.success("启用成功");
-                          actionRef.current.reload();
-                        }
-                      },
-                      onCancel() {},
-                    });
-                  },
-                },
-                {
                   label: "删除",
-                  key: "3",
+                  key: "1",
                   disabled: selectedRowKeys.length === 0 ? true : false,
                   onClick: async () => {
                     confirm({
