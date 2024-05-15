@@ -1,0 +1,44 @@
+.dashboard {
+  // 图表区
+  .charts {
+    display: flex;
+    margin-top: 20px;
+    height: 320px;
+    .pie {
+      padding: 10px;
+      width: 35%;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      margin-right: 1%;
+      background-color: #fff;
+    }
+    .line {
+      padding: 10px;
+      width: 64%;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background-color: #fff;
+    }
+  }
+  // 公告区
+  .notice {
+    margin-top: 20px;
+    padding: 10px 20px;
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background-color: #fff;
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .ant-list-item-meta-description {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+  }
+}

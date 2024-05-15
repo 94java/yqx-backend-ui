@@ -6,15 +6,14 @@ import {
   Dropdown,
   Popconfirm,
   Table,
-  Tag,
   message,
   Modal,
   Radio,
   RadioChangeEvent,
 } from "antd";
 import { useRef, useState } from "react";
-import { changeStatus, deleteByIds, getById, page } from "@/services/note/api";
-import { useNavigate,history } from "@umijs/max";
+import { changeStatus, deleteByIds, page } from "@/services/note/api";
+import { useNavigate, history, useModel } from "@umijs/max";
 
 const { confirm } = Modal;
 const columns: ProColumns<NOTE.NoteItem>[] = [
@@ -45,9 +44,12 @@ const columns: ProColumns<NOTE.NoteItem>[] = [
     key: "title",
     dataIndex: "title",
     render: (_, record) => (
-      <Button type="link" onClick={() => {
+      <Button
+        type="link"
+        onClick={() => {
           history.push("/note/content?id=" + record.id);
-        }}>
+        }}
+      >
         {record.title}
       </Button>
     ),
@@ -81,6 +83,7 @@ const columns: ProColumns<NOTE.NoteItem>[] = [
     width: 120,
     key: "category_id",
     dataIndex: "category_id",
+    hideInSearch: true,
     render: (_, record) => <>{record.category?.name}</>,
   },
   {
@@ -88,6 +91,7 @@ const columns: ProColumns<NOTE.NoteItem>[] = [
     width: 120,
     key: "user_id",
     dataIndex: "user_id",
+    hideInSearch: true,
     render: (_, record) => <>{record.user?.nickname}</>,
   },
   {
@@ -115,21 +119,6 @@ const columns: ProColumns<NOTE.NoteItem>[] = [
     hideInSearch: true,
   },
   {
-    title: "创建时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
-  },
-  {
     title: "修改时间",
     width: 155,
     key: "updateTime",
@@ -137,21 +126,6 @@ const columns: ProColumns<NOTE.NoteItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "修改时间",
-    width: 100,
-    dataIndex: "updateTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "updateTime",
-    search: {
-      transform: (value) => {
-        return {
-          updateTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",
@@ -198,6 +172,9 @@ export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [statusModal, setStatusModal] = useState(false);
   const [statusChange, setStatusChange] = useState("0");
+  const {
+    initialState: { currentUser },
+  } = useModel("@@initialState");
   return (
     <PageContainer>
       <ProTable<CATEGORY.CategoryItem>
@@ -282,7 +259,9 @@ export default () => {
               ],
             }}
           >
-            <Button key="more">更多</Button>
+            <Button key="more" hidden={currentUser.role !== "ADMIN"}>
+              更多
+            </Button>
           </Dropdown>,
           <Modal
             key="modal"

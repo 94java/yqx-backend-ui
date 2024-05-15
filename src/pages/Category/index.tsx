@@ -64,21 +64,6 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     hideInSearch: true,
   },
   {
-    title: "创建时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
-  },
-  {
     title: "修改时间",
     width: 155,
     key: "updateTime",
@@ -86,21 +71,6 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "修改时间",
-    width: 100,
-    dataIndex: "updateTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "updateTime",
-    search: {
-      transform: (value) => {
-        return {
-          updateTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",

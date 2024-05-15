@@ -1,9 +1,9 @@
 import { ExclamationCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import type { ProColumns } from "@ant-design/pro-components";
 import { PageContainer, ProTable } from "@ant-design/pro-components";
-import { Button, Dropdown, Popconfirm, Table, message, Modal } from "antd";
+import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
 import { useRef, useState } from "react";
-import { deleteByIds, getById, page } from "@/services/role/api";
+import { deleteByIds, getById, page } from "@/services/notice/api";
 import AddModal from "./Modal";
 
 const { confirm } = Modal;
@@ -18,33 +18,33 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     key: "id",
   },
   {
-    title: "角色名",
+    title: "标题",
     width: 120,
-    dataIndex: "name",
+    dataIndex: "title",
     ellipsis: true,
-    key: "name",
+    key: "title",
   },
   {
-    title: "角色标识",
-    width: 120,
+    title: "内容",
+    width: 180,
+    dataIndex: "content",
     ellipsis: true,
-    key: "roleTag",
-    dataIndex: "roleTag",
+    key: "content",
+    hideInSearch: true,
+  },
+  {
+    title: "创建者",
+    width: 120,
+    dataIndex: "createBy",
+    key: "createBy",
+    hideInSearch: true,
+    render: (_, record) => <>{record.user?.nickname}</>,
   },
   {
     title: "创建时间",
     width: 155,
     key: "showTime",
     dataIndex: "createTime",
-    valueType: "dateTime",
-    sorter: true,
-    hideInSearch: true,
-  },
-  {
-    title: "修改时间",
-    width: 155,
-    key: "updateTime",
-    dataIndex: "updateTime",
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
@@ -58,13 +58,16 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     render: (text, record, _, action) => [
       <AddModal
         key="edit"
-        title="编辑分类"
+        title="编辑公告"
         flush={() => {
           action?.reload();
         }}
         request={async () => {
-          let { data } = await getById(record.id);
+          let { data } = await getById(record.id as string);
           data.status = data.status === "0" ? false : true;
+          data.coverImg = data.coverImg
+            ? [{ thumbUrl: data.coverImg, name: data.coverImg }]
+            : [];
           return data;
         }}
         trigger={<a>编辑</a>}
@@ -129,11 +132,11 @@ export default () => {
           onChange: (page) => console.log(page),
         }}
         dateFormatter="string"
-        headerTitle="分类列表"
+        headerTitle="公告列表"
         toolBarRender={() => [
           <AddModal
             key="add"
-            title="添加分类"
+            title="添加公告"
             tableRef={actionRef}
             trigger={
               <Button key="button" icon={<PlusOutlined />} type="primary">
@@ -147,7 +150,7 @@ export default () => {
               items: [
                 {
                   label: "删除",
-                  key: "1",
+                  key: "3",
                   disabled: selectedRowKeys.length === 0 ? true : false,
                   onClick: async () => {
                     confirm({

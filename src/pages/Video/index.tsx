@@ -5,6 +5,7 @@ import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
 import { useRef, useState } from "react";
 import { changeStatus, deleteByIds, getById, page } from "@/services/video/api";
 import AddModal from "./Modal";
+import { useModel } from "@umijs/max";
 
 const { confirm } = Modal;
 
@@ -93,6 +94,7 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     dataIndex: "categoryId",
     ellipsis: true,
     key: "categoryId",
+    hideInSearch: true,
     render: (_, record) => <>{record.category?.name}</>,
   },
   {
@@ -101,6 +103,7 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     dataIndex: "userId",
     ellipsis: true,
     key: "userId",
+    hideInSearch: true,
     render: (_, record) => <>{record.user?.nickname}</>,
   },
   {
@@ -127,21 +130,6 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     hideInSearch: true,
   },
   {
-    title: "创建时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
-  },
-  {
     title: "修改时间",
     width: 155,
     key: "updateTime",
@@ -149,21 +137,6 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "修改时间",
-    width: 100,
-    dataIndex: "updateTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "updateTime",
-    search: {
-      transform: (value) => {
-        return {
-          updateTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",
@@ -215,6 +188,9 @@ const columns: ProColumns<VIDEO.VideoItem>[] = [
 export default () => {
   const actionRef: any = useRef();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const {
+    initialState: { currentUser },
+  } = useModel("@@initialState");
   return (
     <PageContainer>
       <ProTable<CATEGORY.CategoryItem>
@@ -344,7 +320,9 @@ export default () => {
               ],
             }}
           >
-            <Button key="more">更多</Button>
+            <Button key="more" hidden={currentUser.role !== "ADMIN"}>
+              更多
+            </Button>
           </Dropdown>,
         ]}
       />

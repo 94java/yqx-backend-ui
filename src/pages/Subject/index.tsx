@@ -109,6 +109,7 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     dataIndex: "createBy",
     ellipsis: true,
     key: "createBy",
+    hideInSearch: true,
   },
   {
     title: "创建时间",
@@ -118,21 +119,6 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "创建时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",
@@ -145,7 +131,9 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
         rel="noopener noreferrer"
         key="config"
         // to={"/question-bank/question/answer?id=" + record.id}
-        onClick={() => {history.push("/question-bank/question/answer?subjectId=" + record.id)}}
+        onClick={() => {
+          history.push("/question-bank/question/answer?subjectId=" + record.id);
+        }}
       >
         配置选项
       </a>,

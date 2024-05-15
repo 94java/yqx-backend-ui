@@ -10,7 +10,7 @@ import mediumZoom from "@bytemd/plugin-medium-zoom";
 import mermaid from "@bytemd/plugin-mermaid";
 
 // 引入中文包
-import zhHans from "bytemd/locales/zh_Hans.json"
+import zhHans from "bytemd/locales/zh_Hans.json";
 // 引入编辑器
 import { Editor } from "@bytemd/react";
 import { Button, Flex, Input, Form, message } from "antd";
@@ -27,15 +27,13 @@ import {
   ProFormText,
 } from "@ant-design/pro-components";
 
-
 // 主题
 import "bytemd/dist/index.min.css";
-import './theme/smartblue.css'
+import "./theme/smartblue.css";
 import "./theme/atom-one-light.css";
 import "./index.less";
 import { add, getById, update } from "@/services/note/api";
 import { list } from "@/services/category/api";
-
 
 const plugins = [
   gfm(),
@@ -46,7 +44,6 @@ const plugins = [
   mediumZoom(),
   mermaid(),
 ];
-
 
 const Content = () => {
   const [artileValue, setArtileValue] = useState("");
@@ -94,7 +91,7 @@ const Content = () => {
         content: artileValue,
         title: titleRef.current.input.value,
         // 状态为草稿状态或待审核状态
-        status: flag ? '2' : '0',
+        status: flag ? "2" : "0",
       };
       if (req.coverImg) {
         req.coverImg = (req.coverImg[0] as any).response.data;
@@ -104,7 +101,7 @@ const Content = () => {
         message.success("修改成功");
         setTimeout(() => {
           navigate(-1);
-        },500)
+        }, 500);
       }
     }
   };
@@ -127,11 +124,18 @@ const Content = () => {
           <LeftOutlined />
           笔记管理
         </Button>
-        <Input placeholder="请输入文章标题" ref={titleRef} value={title} onChange={(e) => {
-          setTitle(e.target.value)
-        }}/>
+        <Input
+          placeholder="请输入文章标题"
+          ref={titleRef}
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
         <Button onClick={() => handleSubmit(true)}>保存草稿</Button>
-        <Button type="primary" onClick={() => handleSubmit(false)}>发布文章</Button>
+        <Button type="primary" onClick={() => handleSubmit(false)}>
+          发布文章
+        </Button>
         <Button
           type="text"
           className="text-btn"
@@ -166,7 +170,7 @@ const Content = () => {
               return false;
             }
             // 图片处理
-            if (values.coverImg !== '') {
+            if (values.coverImg) {
               values.coverImg = (values.coverImg[0] as any)?.response?.data;
             }
             // 构建请求
@@ -179,7 +183,7 @@ const Content = () => {
             if (!id) {
               // 是文章发布或保存草稿
               // 待审核状态
-              req.status = draftFlag ? '2' : '0';
+              req.status = draftFlag ? "2" : "0";
               const { code } = await add(req);
               if (code === 0) {
                 message.success("保存成功");
@@ -187,9 +191,9 @@ const Content = () => {
               }
             } else {
               // 是修改操作
-              const resp = await update(values)
+              const resp = await update(values);
               if (resp.code === 0) {
-                message.success("设置成功")
+                message.success("设置成功");
               }
             }
 

@@ -11,6 +11,17 @@ export async function login(body: USER.LoginParams, options?: { [key: string]: a
     ...(options || {}),
   });
 }
+/** 邮箱快捷登录 POST /api/login/account */
+export async function loginByEmail(body: USER.LoginParams, options?: { [key: string]: any }) {
+  return request<USER.LoginResult>('/api/user/loginByEmail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -19,6 +30,26 @@ export async function currentUser(options?: { [key: string]: any }) {
   }>('/api/user/currentUser', {
     method: 'GET',
     ...(options || {}),
+  });
+}
+
+/** 获取当前用户的统计数据 GET /api/getStatistics */
+export async function getStatistics(options?: { [key: string]: any }) {
+  return request<{
+    data: USER.CurrentUser;
+  }>('/api/user/getStatistics', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+/** 发送邮箱验证码 POST /api/getStatistics */
+export async function sendEmailCode(data?: { [key: string]: any }) {
+  return request<{
+    data: USER.CurrentUser;
+  }>('/api/user/sendEmailCode', {
+    method: 'POST',
+    params:data
   });
 }
 

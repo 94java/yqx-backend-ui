@@ -3,11 +3,15 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { PageContainer, ProTable } from "@ant-design/pro-components";
 import { Button, Dropdown, Popconfirm, Table, Tag, message, Modal } from "antd";
 import { useRef, useState } from "react";
-import { changeStatus, deleteByIds, getById, page } from "@/services/questionBank/api";
+import {
+  changeStatus,
+  deleteByIds,
+  getById,
+  page,
+} from "@/services/questionBank/api";
 import AddModal from "./Modal";
 
 const { confirm } = Modal;
-
 
 const columns: ProColumns<CATEGORY.CategoryItem>[] = [
   {
@@ -56,6 +60,7 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     dataIndex: "categoryId",
     ellipsis: true,
     key: "categoryId",
+    hideInSearch: true,
     render: (_, record) => <>{record.category?.name}</>,
   },
   {
@@ -63,7 +68,7 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     width: 120,
     dataIndex: "views",
     key: "views",
-    hideInSearch:true
+    hideInSearch: true,
   },
   {
     title: "状态",
@@ -86,6 +91,7 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     width: 120,
     dataIndex: "createBy",
     key: "createBy",
+    hideInSearch: true,
   },
   {
     title: "创建时间",
@@ -95,21 +101,6 @@ const columns: ProColumns<CATEGORY.CategoryItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "创建时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",

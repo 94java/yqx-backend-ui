@@ -128,21 +128,6 @@ const columns: ProColumns<UserItem>[] = [
     hideInSearch: true,
   },
   {
-    title: "最后登录时间",
-    width: 100,
-    dataIndex: "lastLoginTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "searchLastLoginTime",
-    search: {
-      transform: (value) => {
-        return {
-          lastLoginTime: value,
-        };
-      },
-    },
-  },
-  {
     title: "最后登录ip",
     width: 155,
     dataIndex: "lastLoginIp",
@@ -158,21 +143,6 @@ const columns: ProColumns<UserItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "创建时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",

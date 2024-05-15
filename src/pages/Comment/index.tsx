@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { deleteByIds, page } from "@/services/comment/api";
 import { getById as getNoteById } from "@/services/note/api";
 import { getById as getVideoById } from "@/services/video/api";
+import { getById as getPopularById } from "@/services/popular/api";
 
 const { confirm } = Modal;
 const columns: ProColumns<COMMENT.CommentItem>[] = [
@@ -23,6 +24,7 @@ const columns: ProColumns<COMMENT.CommentItem>[] = [
     dataIndex: "uid",
     ellipsis: true,
     key: "uid",
+    hideInSearch: true,
     render: (_, record) => <>{record.user?.nickname}</>,
   },
   {
@@ -31,7 +33,13 @@ const columns: ProColumns<COMMENT.CommentItem>[] = [
     dataIndex: "contentId",
     ellipsis: true,
     key: "contentId",
-    render: (_, record) => <>{record.contentObj?.title}</>,
+    render: (_, record) => (
+      <>
+        {record.type === "2"
+          ? `【动态】${record.contentObj?.content}`
+          : record.contentObj?.title}
+      </>
+    ),
   },
   {
     title: "评论内容",
@@ -39,6 +47,7 @@ const columns: ProColumns<COMMENT.CommentItem>[] = [
     ellipsis: true,
     key: "content",
     dataIndex: "content",
+    hideInSearch: true,
   },
   {
     title: "评论时间",
@@ -48,21 +57,6 @@ const columns: ProColumns<COMMENT.CommentItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "评论时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",
@@ -124,9 +118,13 @@ export default () => {
               // 笔记
               let data = await getNoteById(item.contentId);
               item.contentObj = data.data;
-            } else {
+            } else if (item.type === "1") {
               // 视频
               let data = await getVideoById(item.contentId);
+              item.contentObj = data.data;
+            } else if (item.type === "2") {
+              // 动态
+              let data = await getPopularById(item.contentId);
               item.contentObj = data.data;
             }
           }

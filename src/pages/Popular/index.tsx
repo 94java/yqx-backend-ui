@@ -21,6 +21,8 @@ const columns: ProColumns<POPULAR.PopularItem>[] = [
     ellipsis: true,
     key: "create_by",
     dataIndex: "create_by",
+    hideInSearch: true,
+    render: (_, record) => <>{record.user?.nickname}</>,
   },
   {
     title: "动态内容",
@@ -38,21 +40,6 @@ const columns: ProColumns<POPULAR.PopularItem>[] = [
     valueType: "dateTime",
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: "发布时间",
-    width: 100,
-    dataIndex: "createTime",
-    valueType: "dateRange",
-    hideInTable: true,
-    key: "createTime",
-    search: {
-      transform: (value) => {
-        return {
-          createTime: value,
-        };
-      },
-    },
   },
   {
     title: "操作",
@@ -113,9 +100,7 @@ export default () => {
             total: res.data.total,
           };
         }}
-        search={{
-          labelWidth: "auto",
-        }}
+        search={false}
         pagination={{
           pageSize: 5,
           onChange: (page) => console.log(page),

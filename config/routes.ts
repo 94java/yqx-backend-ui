@@ -24,8 +24,7 @@ export default [
     routes: [
       { path: '/system', redirect: '/system/admin' },
       { path: '/system/role', name: '角色管理', component: '@/pages/System/Role' },
-      { path: '/system/notice', name: '通知公告', component: './Admin' },
-      { path: '/system/log', name: '日志管理', component: './Admin' }
+      { path: '/system/notice', name: '通知公告', component: '@/pages/System/Notice' },
     ],
   },
   {
