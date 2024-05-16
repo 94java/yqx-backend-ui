@@ -76,7 +76,6 @@ export default [
     path: '/question', name: '选项配置',hideInMenu: true,
     routes: [
       { path: '/question', redirect: '/question/answer' },
-      { path: '/question/answer', name: '选项配置', component: './Admin' },
     ]
   },
   { path: '/', redirect: '/dashboard' },
