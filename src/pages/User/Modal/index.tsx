@@ -63,8 +63,7 @@ export default (prop: any) => {
           name="password"
           label="密码"
           tooltip="请输入6-16位密码"
-          placeholder="请输入密码"
-          rules={[{ required: true, message: "请输入密码" }]}
+          placeholder="请输入密码，留空不修改"
         />
       </ProForm.Group>
       <ProForm.Group>
@@ -79,7 +78,7 @@ export default (prop: any) => {
           name="avatar"
           label="头像"
           max={1}
-          action="/api/file/upload"
+          action="http://localhost:8866/api/file/upload"
         />
       </ProForm.Group>
       <ProForm.Group>

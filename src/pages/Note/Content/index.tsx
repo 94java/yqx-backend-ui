@@ -5,8 +5,6 @@ import gfm from "@bytemd/plugin-gfm";
 import frontmatter from "@bytemd/plugin-frontmatter";
 import breaks from "@bytemd/plugin-breaks";
 import highlight from "@bytemd/plugin-highlight";
-import math from "@bytemd/plugin-math";
-import mediumZoom from "@bytemd/plugin-medium-zoom";
 import mermaid from "@bytemd/plugin-mermaid";
 
 // 引入中文包
@@ -40,8 +38,6 @@ const plugins = [
   frontmatter(),
   highlight(),
   breaks(),
-  math(),
-  mediumZoom(),
   mermaid(),
 ];
 
@@ -208,7 +204,7 @@ const Content = () => {
             tooltip="设置封面图，获取更多流量"
             placeholder="请添加封面"
             max={1}
-            action="/api/file/upload"
+            action="http://localhost:8866/api/file/upload"
           />
           <ProFormText name="id" label="id" hidden={true} key="id" />
           <ProFormSelect

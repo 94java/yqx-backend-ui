@@ -55,7 +55,7 @@ export default (prop: any) => {
         tooltip="设置封面图，获取更多流量"
         placeholder="请添加封面"
         max={1}
-        action="/api/file/upload"
+        action="http://localhost:8866/api/file/upload"
         rules={[{ required: true, message: "请上传题库封面" }]}
       />
       <ProFormText

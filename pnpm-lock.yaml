@@ -59,6 +59,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      mockjs:
+        specifier: ^1.1.0
+        version: 1.1.0
       moment:
         specifier: ^2.30.1
         version: 2.30.1
@@ -5167,6 +5170,7 @@ packages:
 
   glob@7.1.4:
     resolution: {integrity: sha512-hkLPepehmnKk41pUGm3sYxoFs/umurYfYJCerbXEyFIWcAzvpipAgVkBqqT9RBKMGjnq6kMuyYwha6csxbiM1A==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
@@ -5174,6 +5178,7 @@ packages:
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@9.3.5:
     resolution: {integrity: sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==}
@@ -5566,6 +5571,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.3:
     resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
@@ -6026,6 +6032,10 @@ packages:
 
   jest-message-util@29.7.0:
     resolution: {integrity: sha512-GBEV4GRADeP+qtB2+6u61stea8mGcOT4mCtrYISZwfu9/ISHFJ/5zOMXYbpBE9RsS5+Gb63DW4FgmnKJ79Kf6w==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  jest-mock@29.7.0:
+    resolution: {integrity: sha512-ITOMZn+UkYS4ZFh83xYAOzWStloNzJFO2s8DWrE4lhtGD+AorgnbkiKERe4wQVBydIGPx059g6riW5Btp6Llnw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   jest-pnp-resolver@1.2.3:
@@ -6876,6 +6886,13 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  mock.js@0.2.0:
+    resolution: {integrity: sha512-DKI8Rh/h7Mma+fg+6aD0uUvwn0QXAjKG6q3s+lTaCboCQ/kvQMBN9IXRBzgEaz4aPiYoRnKU9jVsfZp0mHpWrQ==}
+
+  mockjs@1.1.0:
+    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
+    hasBin: true
+
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
@@ -7436,7 +7453,8 @@ packages:
     resolution: {integrity: sha512-nifX1uj4S9IrK/w3Xe7kKvNEepXivANs9ng60Iq7PU/BlouV3yL/VUhFqTuTq33ykwUqoNcTeGo5vdOBP4jS/Q==}
 
   path-to-regexp@1.8.0:
-    resolution: {integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==}
+    resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==, tarball: https://registry.npmmirror.com/path-to-regexp/-/path-to-regexp-1.9.0.tgz}
+    deprecated: '[WARNING] Use 1.9.0 instead of 1.8.0, reason: https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-9wv6-86v2-598j'
 
   path-to-regexp@2.4.0:
     resolution: {integrity: sha512-G6zHoVqC6GGTQkZwF4lkuEyMbVOjoBKAEybQUypI1WTkqinCOrq2x6U2+phkJ1XsEMTy4LjtwPI7HW+NVrRR2w==}
@@ -9964,6 +9982,9 @@ packages:
 
   umi-core@1.9.10:
     resolution: {integrity: sha512-3THxpVXtdTyJfpGBb4WQnxy+Gv+LjHo+RFCmLRNl7fJ/XBT4otjAb33g9eoV5zLAK64LYzZ+f/qxKYo0ilzaMQ==}
+
+  umi-mock@2.1.5:
+    resolution: {integrity: sha512-6yJB89Q8F/FGlB2ZpaKDoYBsv0E29XMoKCgEr1TAO8TfUPEU0oMKOOuhDA633sZ/jRhxFbK1Yvu4DLS7SjtQoA==}
 
   umi-presets-pro@2.0.3:
     resolution: {integrity: sha512-sHKynw/fi7UeUftzTRPRsrV5GHV4BWvWYhyvwkg8s+shmt0ROPW/52y4gxBziEvetxl8yWMKUCWk50OUDOcrww==}
@@ -13044,6 +13065,7 @@ snapshots:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
       '@types/node': 20.11.5
+      jest-mock: 29.7.0
     optional: true
 
   '@jest/expect-utils@29.7.0':
@@ -13065,6 +13087,7 @@ snapshots:
       '@sinonjs/fake-timers': 10.3.0
       '@types/node': 20.11.5
       jest-message-util: 29.7.0
+      jest-mock: 29.7.0
       jest-util: 29.7.0
     optional: true
 
@@ -13073,6 +13096,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/expect': 29.7.0
       '@jest/types': 29.6.3
+      jest-mock: 29.7.0
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -14584,6 +14608,8 @@ snapshots:
       glob: 7.2.3
       lodash: 4.17.21
       memoizee: 0.4.15
+      mock.js: 0.2.0
+      mockjs: 1.1.0
       node-fetch: 2.7.0(encoding@0.1.13)
       nunjucks: 3.2.4(chokidar@3.5.3)
       openapi3-ts: 2.0.2
@@ -19229,6 +19255,7 @@ snapshots:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
       '@types/node': 20.11.5
+      jest-mock: 29.7.0
       jest-util: 29.7.0
     optional: true
 
@@ -19276,6 +19303,13 @@ snapshots:
       pretty-format: 29.7.0
       slash: 3.0.0
       stack-utils: 2.0.6
+    optional: true
+
+  jest-mock@29.7.0:
+    dependencies:
+      '@jest/types': 29.6.3
+      '@types/node': 20.11.5
+      jest-util: 29.7.0
     optional: true
 
   jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
@@ -19350,6 +19384,7 @@ snapshots:
       graceful-fs: 4.2.11
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
+      jest-mock: 29.7.0
       jest-regex-util: 29.6.3
       jest-resolve: 29.7.0
       jest-snapshot: 29.7.0
@@ -20498,6 +20533,12 @@ snapshots:
       minimist: 1.2.8
 
   mkdirp@1.0.4: {}
+
+  mock.js@0.2.0: {}
+
+  mockjs@1.1.0:
+    dependencies:
+      commander: 11.1.0
 
   moment@2.30.1: {}
 
@@ -24411,6 +24452,17 @@ snapshots:
       - '@babel/core'
       - supports-color
 
+  umi-mock@2.1.5:
+    dependencies:
+      body-parser: 1.19.0
+      chokidar: 3.0.2
+      glob: 7.1.4
+      multer: 1.4.4
+      path-to-regexp: 1.7.0
+      signale: 1.4.0
+      umi-utils: 1.7.3
+    transitivePeerDependencies:
+      - supports-color
 
   umi-presets-pro@2.0.3(@babel/core@7.4.5)(@types/react-dom@18.2.18)(@types/react@18.2.48)(antd@5.13.2(date-fns@2.30.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(chokidar@3.5.3)(dva@2.5.0-beta.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(encoding@0.1.13)(rc-field-form@1.41.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(umi@4.1.1(@babel/core@7.4.5)(@types/node@20.11.5)(@types/react@18.2.48)(eslint@8.56.0)(jest@29.7.0(@types/node@20.11.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.11.5)(typescript@5.3.3)))(prettier@2.8.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(rollup@3.29.4)(stylelint@13.13.1)(sugarss@2.0.0)(terser@5.27.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack@5.89.0)):
     dependencies:
@@ -24456,6 +24508,7 @@ snapshots:
       express: 4.17.1
       serve-static: 1.14.1
       umi-core: 1.9.10(@babel/core@7.4.5)
+      umi-mock: 2.1.5
       umi-utils: 1.7.3
       update-notifier: 3.0.0
       yargs-parser: 13.1.1

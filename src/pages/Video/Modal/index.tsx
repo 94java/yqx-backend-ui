@@ -58,7 +58,7 @@ export default (prop: any) => {
         tooltip="设置封面图，获取更多流量"
         placeholder="请添加封面"
         max={1}
-        action="/api/file/upload"
+        action="http://localhost:8866/api/file/upload"
         rules={[{ required: true, message: "请上传视频封面" }]}
       />
       <ProFormText
@@ -110,7 +110,7 @@ export default (prop: any) => {
         fieldProps={{ multiple: true, name: "file" }}
         rules={[{ required: true, message: "请上传视频资源" }]}
         max={1}
-        action="/api/file/upload"
+        action="http://localhost:8866/api/file/upload"
       />
       <ProFormTextArea
         width="md"

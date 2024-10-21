@@ -33,6 +33,7 @@ const columns: ProColumns<COMMENT.CommentItem>[] = [
     dataIndex: "contentId",
     ellipsis: true,
     key: "contentId",
+    hideInSearch: true,
     render: (_, record) => (
       <>
         {record.type === "2"
@@ -135,9 +136,7 @@ export default () => {
             total: res.data.total,
           };
         }}
-        search={{
-          labelWidth: "auto",
-        }}
+        search={false}
         pagination={{
           pageSize: 5,
           onChange: (page) => console.log(page),

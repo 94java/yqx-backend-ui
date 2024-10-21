@@ -62,7 +62,7 @@ export default (prop: any) => {
         name="contentImg"
         label="内容图片"
         max={1}
-        action="/api/file/upload"
+        action="http://localhost:8866/api/file/upload"
       />
       <ProFormText name="id" label="id" hidden />
       <ProFormSelect

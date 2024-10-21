@@ -148,7 +148,7 @@ const Login: React.FC = () => {
               },
               {
                 key: "mobile",
-                label: "手机号登录",
+                label: "邮箱快捷登录",
               },
             ]}
           />

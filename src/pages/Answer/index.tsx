@@ -49,7 +49,7 @@ const Answer: React.FC = () => {
         return (
           <Upload
             name="file"
-            action={"/api/file/upload"}
+            action={"http://localhost:8866/api/file/upload"}
             maxCount={1}
             defaultFileList={
               record.contentImg
